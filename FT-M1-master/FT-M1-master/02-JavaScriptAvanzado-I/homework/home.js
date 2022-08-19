@@ -16,7 +16,7 @@ var c = function(a, b, c) {
 }
 c(8,9,10);
 console.log(b);//10
-console.log(x);//
+console.log(x);//1
 
 
 
@@ -36,7 +36,7 @@ var instructor = "Tony";
 if(true) {
     var instructor = "Franco";
 }
-console.log(instructor);
+console.log(instructor);//Franco
 
 
 
