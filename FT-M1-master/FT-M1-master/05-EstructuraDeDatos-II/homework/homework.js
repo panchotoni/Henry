@@ -14,62 +14,72 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
 function LinkedList() {
   this.head = null;
 }
+
 function Node(value) {
   this.value = value;
   this.next = null;
 }
 
-LinkedList.prototype.add = function (value) {
-  const newNode = new Node(value)
-  let current = this.head; 
-  if (!current) {
-      this.head = newNode
-      this.size++
-      return newNode
-  }
-  while(current.next){ 
-      current = current.next  
-  } 
-  current.next = newNode; 
-  this.size++
-}
-//
-LinkedList.prototype.remove = function() {
-  let current = this.head;
-  if(!current){
-    return null; //Preguntamos si la lista esta vacia, es decir que no tiene head
-  }
-
-  if(!current.next){ //Aca verificamos si solo tenemos el head nada mas
-    let aux = this.head.value
-    this.head = null
-    return aux
-  }
-
-  while(current.next.next) { //Aca vemos si es una lista normal y nos ubicamos en un nodo previo al que tenemos que borrar
-    current = current.next
-  }
-  let aux = current.next.value
-  current.next = null
-  return aux
-
-}
-LinkedList.prototype.search = function(input) {
+LinkedList.prototype.add = function(info){
+  let nodo = new Node(info)
   let current = this.head
 
-  while(current){
-    if(typeof input === "function"){
-      if(input(current.value)) {
-        return current.value
-      }
-    } else {
-      if(current.value === input) {
-        return current.value
-      }
-    }
+  if(!this.head){ //ESTO ES LO MISMO QUE PREGUNTAR (this.head === null), ESTMAOS VIENDO SI EL HEAD ESTA VACIO, SI LO ESTA INSERTAMOS EL PRIMER NODO EN EL HEAD
+    this.head = nodo
+  } else {
+    while(current.next){ //ACA VEMOS SI HAY ALGO LUEGO DEL HEAD, ES DECIR SI HAY UN NODO YA CONECTADO, ES LO MISMO QUE DECIR (current.next != null)
     current = current.next
+    }
+    current.next = nodo
   }
+
+}
+
+LinkedList.prototype.remove = function(){
+  if(!this.head){
+    return null
+  }
+  if(!this.head.next){
+    let current = this.head
+    this.head = null
+    return current.value
+  } else {
+    let current = this.head
+    while(current.next.next != null) { //ACA LO QUE HACEMOS ES VERIFICAR SI DESDE EL CURRENT QUE ES EL ITERADOR, VIENDO SI HAY ALGO EN DOS POSICIONES MAS ADELANTE, SI EN LA SEGUNDA POS NO HAY NADA, BORRAMOS LA PRIMERA
+      current = current.next
+    }
+    var data = current.next.value
+    current.next = null
+    return data
+  }
+}
+
+LinkedList.prototype.search = function(argumento){
+  if(!this.head) { //SI ESTA VACIA RETORNAMOS NULL DE UNA 
+    return null
+  }
+
+  let busqueda
+  if(typeof argumento != "function") {
+    busqueda = function (data) {
+      return data === argumento
+    }
+  } else {
+    busqueda = argumento;
+  }
+  
+  let current = this.head
+  while(current) {
+    if (busqueda(current.value)) {
+      return current.value
+    } else {
+      current = current.next
+    }
+  }
+
   return null
+
+
 }
 
 /*

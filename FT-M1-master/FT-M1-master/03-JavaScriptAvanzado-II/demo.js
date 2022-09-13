@@ -25,11 +25,10 @@ saludarHello("George");
 
 function crearContador() {
   var count = 0;
-
-  return function () {
-    count++;
-    return count;
-  };
+    return function () {
+      count++;
+      return count;
+    };
 }
 
 var contador1 = crearContador();
