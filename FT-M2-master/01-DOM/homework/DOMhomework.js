@@ -57,7 +57,21 @@ ToDo.prototype.completeToDo = function() {
 
 function buildToDo(todo, index) {
   // Tu código acá:
+  let toDoShell = document.createElement('div')
+  toDoShell.className = 'toDoShell'
 
+  let toDoText = document.createElement('span')
+  toDoText.innerHTML = todo.description
+  toDoText.id = index
+  toDoText.addEventListener('click', completeToDo)
+
+  if (todo.complete) {
+    toDoText.className = 'completeText'
+  }
+
+  toDoShell.appendChild(toDoText)
+
+  return toDoShell
 }
 
 // La función 'buildToDos' debe crear un array de objetos toDo y devolverlo
@@ -67,7 +81,8 @@ function buildToDo(todo, index) {
 
 function buildToDos(toDos) {
   // Tu código acá:
-
+  const arrayDeTodos = toDos.map(buildToDo)
+  return arrayDeTodos
 }
 
 
@@ -82,6 +97,13 @@ function buildToDos(toDos) {
 
 function displayToDos() {
   // Tu código acá:
+  const toDoContainer = document.querySelector('#toDoContainer')
+  toDoContainer.innerHTML = ""
+  let arrayDeToDosHTML = buildToDos(toDoItems)
+
+  arrayDeToDosHTML.forEach(function(todoHtml) {
+    toDoContainer.appendChild(todoHtml)
+  });
 
 }
 
@@ -97,7 +119,13 @@ function displayToDos() {
 
 function addToDo() {
   // Tu código acá:
+  const input = document.querySelector('#toDoInput')
+  let tarea1 = new ToDo (input.value)
+  toDoItems.push(tarea1)
 
+  input.value = ""
+
+  displayToDos()
 }
 
 // Agregar un 'Event Listener' para que cada vez que el botón 'AGREGAR' sea clickeado
@@ -106,6 +134,7 @@ function addToDo() {
 //   2) Agregarle un 'click' event listener, pasándole la función 'addToDo' como callback
 
 // Tu código acá:
+document.querySelector('#addButton').addEventListener('click', addToDo)
 
 
 // La función completeToDo se va a ejecutar cuando queramos completar un todo
@@ -122,9 +151,10 @@ function addToDo() {
 
 function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
-  // const index = event.target.id;
+  const index = event.target.id;
   // Tu código acá:
-
+  toDoItems[index].completeToDo()
+  displayToDos()
 }
 
 // Una vez que llegaste a este punto verificá que todos los tests pasen
